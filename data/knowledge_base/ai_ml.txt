@@ -1,0 +1,17 @@
+# AI/ML Engineer Career
+
+## What They Do
+AI/ML engineers build artificial intelligence systems.
+
+## Skills Needed
+- Python
+- Machine Learning
+- Deep Learning
+- Data Science
+
+## Certifications
+- Google ML Engineer
+- AWS ML Specialty
+
+## Career Path
+Junior ML Engineer → ML Engineer → AI Architect

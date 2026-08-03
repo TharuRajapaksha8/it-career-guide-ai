@@ -1,0 +1,96 @@
+{
+  "roles": [
+    {
+      "id": "cybersecurity",
+      "name": "Cybersecurity Professional",
+      "description": "Protects systems from hackers",
+      "skills": ["Network Security", "Risk Assessment", "Incident Response"],
+      "certifications": ["CompTIA Security+", "CISSP", "CEH"],
+      "career_path": ["Junior Analyst", "Security Engineer", "Security Architect"],
+      "salary": "$70,000 - $150,000"
+    },
+    {
+      "id": "developer",
+      "name": "Software Developer",
+      "description": "Builds applications and websites",
+      "skills": ["Python", "JavaScript", "Git"],
+      "certifications": ["AWS Developer", "Microsoft Azure Developer"],
+      "career_path": ["Junior Developer", "Developer", "Senior Developer"],
+      "salary": "$70,000 - $160,000"
+    },
+    {
+      "id": "devops",
+      "name": "DevOps Engineer",
+      "description": "Automates deployment and operations",
+      "skills": ["Docker", "Kubernetes", "CI/CD"],
+      "certifications": ["AWS DevOps", "Kubernetes Administrator"],
+      "career_path": ["Junior DevOps", "DevOps Engineer", "Cloud Architect"],
+      "salary": "$80,000 - $170,000"
+    },
+    {
+      "id": "cloud",
+      "name": "Cloud Architect",
+      "description": "Designs cloud infrastructure",
+      "skills": ["AWS", "Azure", "Infrastructure as Code"],
+      "certifications": ["AWS Solutions Architect", "Azure Solutions Architect"],
+      "career_path": ["Cloud Engineer", "Cloud Architect", "Principal Architect"],
+      "salary": "$90,000 - $180,000"
+    },
+    {
+      "id": "ai_ml",
+      "name": "AI/ML Engineer",
+      "description": "Builds artificial intelligence systems",
+      "skills": ["Python", "Machine Learning", "Deep Learning"],
+      "certifications": ["Google ML Engineer", "AWS ML Specialty"],
+      "career_path": ["Junior ML Engineer", "ML Engineer", "AI Architect"],
+      "salary": "$90,000 - $190,000"
+    },
+    {
+      "id": "networking",
+      "name": "Network Engineer",
+      "description": "Manages network infrastructure",
+      "skills": ["TCP/IP", "Routing", "Cisco"],
+      "certifications": ["CCNA", "CCNP"],
+      "career_path": ["Network Admin", "Network Engineer", "Network Architect"],
+      "salary": "$65,000 - $150,000"
+    },
+    {
+      "id": "uiux",
+      "name": "UI/UX Designer",
+      "description": "Designs user interfaces and experiences",
+      "skills": ["Figma", "User Research", "Prototyping"],
+      "certifications": ["Google UX Design", "Interaction Design"],
+      "career_path": ["Junior Designer", "UI/UX Designer", "Lead Designer"],
+      "salary": "$60,000 - $140,000"
+    },
+    {
+      "id": "project_manager",
+      "name": "IT Project Manager",
+      "description": "Manages IT projects and teams",
+      "skills": ["Agile", "Scrum", "Communication"],
+      "certifications": ["PMP", "CSM"],
+      "career_path": ["Project Coordinator", "Project Manager", "Program Manager"],
+      "salary": "$70,000 - $160,000"
+    },
+    {
+      "id": "data_engineer",
+      "name": "Data Engineer",
+      "description": "Builds data pipelines",
+      "skills": ["SQL", "Python", "ETL"],
+      "certifications": ["Google Data Engineer", "AWS Data Analytics"],
+      "career_path": ["Junior Data Engineer", "Data Engineer", "Data Architect"],
+      "salary": "$75,000 - $170,000"
+    }
+  ],
+  "guidance": {
+    "cybersecurity": "Start with networking basics, then get Security+ certification. Practice on HackTheBox.",
+    "developer": "Learn one language deeply. Build projects and put them on GitHub.",
+    "devops": "Learn Docker and CI/CD. Understand Linux and cloud platforms.",
+    "cloud": "Get AWS Certified. Practice building and deploying applications.",
+    "ai_ml": "Learn Python and math. Take online courses in ML and Deep Learning.",
+    "networking": "Get CCNA certification. Practice with Cisco packet tracer.",
+    "uiux": "Build a portfolio. Learn Figma and user research methods.",
+    "project_manager": "Learn Agile methodologies. Get PMP certification.",
+    "data_engineer": "Learn SQL and Python. Understand data warehousing."
+  }
+}
