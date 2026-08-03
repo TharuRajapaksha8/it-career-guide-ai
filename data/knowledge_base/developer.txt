@@ -1,0 +1,17 @@
+# Software Developer Career
+
+## What They Do
+Software developers build applications and websites.
+
+## Skills Needed
+- Python or JavaScript
+- Git
+- Testing
+- Databases
+
+## Certifications
+- AWS Developer
+- Microsoft Azure Developer
+
+## Career Path
+Junior Developer → Developer → Senior Developer → Lead

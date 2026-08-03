@@ -1,0 +1,18 @@
+# Cybersecurity Career
+
+## What They Do
+Cybersecurity professionals protect computers and networks from hackers.
+
+## Skills Needed
+- Network Security
+- Risk Assessment
+- Incident Response
+- Security Tools
+
+## Certifications
+- CompTIA Security+ (Entry)
+- CISSP (Advanced)
+- CEH (Hacking)
+
+## Career Path
+Junior Analyst → Security Engineer → Security Architect → CISO

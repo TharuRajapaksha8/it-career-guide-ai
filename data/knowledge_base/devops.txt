@@ -1,0 +1,17 @@
+# DevOps Career
+
+## What They Do
+DevOps engineers automate software deployment.
+
+## Skills Needed
+- Docker
+- Kubernetes
+- CI/CD
+- Linux
+
+## Certifications
+- AWS DevOps
+- Kubernetes Administrator
+
+## Career Path
+Junior DevOps → DevOps Engineer → Cloud Architect

@@ -1,0 +1,16 @@
+# Cloud Architect Career
+
+## What They Do
+Cloud architects design cloud systems.
+
+## Skills Needed
+- AWS/Azure/GCP
+- Infrastructure as Code
+- Cloud Security
+
+## Certifications
+- AWS Solutions Architect
+- Azure Solutions Architect
+
+## Career Path
+Cloud Engineer → Cloud Architect → Principal Architect
