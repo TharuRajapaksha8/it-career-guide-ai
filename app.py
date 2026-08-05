@@ -20,11 +20,21 @@ if 'orchestrator' not in st.session_state:
 
 with st.sidebar:
     st.header("Settings")
+    
     pattern = st.selectbox(
         "Agent Pattern",
         ["single", "sequential", "parallel"],
         help="Single: One agent\nSequential: Assembly line\nParallel: Simultaneous research"
     )
+    
+    model_type = st.selectbox(
+        "AI Model",
+        ["groq", "openrouter"],
+        help="Groq: Fast, cheap\nOpenRouter: Better quality, slower"
+    )
+    
+    if model_type == "openrouter" and not os.getenv("OPENROUTER_API_KEY"):
+        st.warning("OPENROUTER_API_KEY not set. Add to .env file.")
     
     st.markdown("---")
     st.header("Quick Questions")
@@ -38,6 +48,9 @@ with st.sidebar:
         if st.button(q):
             st.session_state.messages.append({"role": "user", "content": q})
             st.rerun()
+    
+    st.markdown("---")
+    st.caption(f"Model: {model_type}")
 
 if 'messages' not in st.session_state:
     st.session_state.messages = []
@@ -54,20 +67,24 @@ if prompt := st.chat_input("Ask about IT careers..."):
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
             try:
-                result = st.session_state.orchestrator.run(prompt, pattern)
-                
-                if pattern == "single":
-                    answer = result.get('final_answer', 'No answer')
-                elif pattern == "sequential":
-                    answer = result.get('final_roadmap', 'No roadmap')
-                elif pattern == "parallel":
-                    answer = result.get('final_comparison', 'No comparison')
+                if model_type == "openrouter" and not os.getenv("OPENROUTER_API_KEY"):
+                    st.error("OPENROUTER_API_KEY not set. Please add to .env file or switch to Groq.")
                 else:
-                    answer = "No answer"
-                
-                st.write(answer)
-                st.caption(f"Pattern: {pattern}")
-                st.session_state.messages.append({"role": "assistant", "content": answer})
+                    st.session_state.orchestrator = get_orchestrator(model_type)
+                    result = st.session_state.orchestrator.run(prompt, pattern)
+                    
+                    if pattern == "single":
+                        answer = result.get('final_answer', 'No answer')
+                    elif pattern == "sequential":
+                        answer = result.get('final_roadmap', 'No roadmap')
+                    elif pattern == "parallel":
+                        answer = result.get('final_comparison', 'No comparison')
+                    else:
+                        answer = "No answer"
+                    
+                    st.write(answer)
+                    st.caption(f"Pattern: {pattern} | Model: {model_type}")
+                    st.session_state.messages.append({"role": "assistant", "content": answer})
                 
             except Exception as e:
                 st.error(f"Error: {e}")
