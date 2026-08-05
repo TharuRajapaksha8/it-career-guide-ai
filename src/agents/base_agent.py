@@ -4,23 +4,38 @@ Uses Groq for fast responses
 """
 
 from langchain_groq import ChatGroq
+from langchain_openai import ChatOpenAI
 import os
 
 class BaseAgent:
-    """Base class for all agents"""
-    
     def __init__(self, model_type="groq"):
-        """Initialize with Groq model"""
-        api_key = os.getenv("GROQ_API_KEY")
-        if not api_key:
-            raise ValueError("Please set GROQ_API_KEY")
-        
-        self.llm = ChatGroq(
-            temperature=0.1,
-            model="llama3-70b-8192",
-            groq_api_key=api_key
-        )
+        self.model_type = model_type
+        self.llm = self._get_model()
     
-    def get_response(self, prompt):
-        """Get response from the model"""
-        return self.llm.invoke(prompt)
+    def _get_model(self):
+        if self.model_type == "groq":
+            api_key = os.getenv("GROQ_API_KEY")
+            if not api_key:
+                raise ValueError("GROQ_API_KEY not found")
+            return ChatGroq(
+                temperature=0.1,
+                model="llama3-70b-8192",
+                groq_api_key=api_key
+            )
+        elif self.model_type == "openrouter":
+            api_key = os.getenv("OPENROUTER_API_KEY")
+            if not api_key:
+                raise ValueError("OPENROUTER_API_KEY not found")
+            return ChatOpenAI(
+                temperature=0.1,
+                model="anthropic/claude-3.5-sonnet",
+                openai_api_key=api_key,
+                base_url="https://openrouter.ai/api/v1"
+            )
+        else:
+            api_key = os.getenv("GROQ_API_KEY")
+            return ChatGroq(
+                temperature=0.1,
+                model="llama3-70b-8192",
+                groq_api_key=api_key
+            )
