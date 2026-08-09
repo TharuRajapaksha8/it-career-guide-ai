@@ -3,18 +3,19 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
+from src.main import get_orchestrator
 
 st.set_page_config(page_title="Career Guide AI", page_icon="💼", layout="wide")
 
 st.title("💼 IT Career Guide AI")
 st.write("Ask me about IT careers!")
 
-if not os.getenv("GROQ_API_KEY"):
+if not os.gete
+nv("GROQ_API_KEY"):
     st.error("Please set GROQ_API_KEY in .env file")
     st.stop()
 
 if 'orchestrator' not in st.session_state:
-    from src.main import get_orchestrator
     with st.spinner("Loading agents..."):
         st.session_state.orchestrator = get_orchestrator()
 
@@ -70,7 +71,7 @@ if prompt := st.chat_input("Ask about IT careers..."):
                 if model_type == "openrouter" and not os.getenv("OPENROUTER_API_KEY"):
                     st.error("OPENROUTER_API_KEY not set. Please add to .env file or switch to Groq.")
                 else:
-                    st.session_state.orchestrator = get_orchestrator(model_type)
+                    # use existing orchestrator (created above)
                     result = st.session_state.orchestrator.run(prompt, pattern)
                     
                     if pattern == "single":
