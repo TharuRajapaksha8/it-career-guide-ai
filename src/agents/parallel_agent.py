@@ -21,8 +21,8 @@ class ParallelState(TypedDict):
 class ParallelCareerAgent(BaseAgent):
     """Parallel agents researching different careers"""
     
-    def __init__(self):
-        super().__init__()
+    def __init__(self, model_type="groq"):
+        super().__init__(model_type)
         self.vector_store = CareerVectorStore()
         self.embedder = CareerEmbedder()
     

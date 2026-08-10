@@ -20,8 +20,8 @@ class CareerState(TypedDict):
 class SequentialCareerAgent(BaseAgent):
     """Sequential assembly line of agents"""
     
-    def __init__(self):
-        super().__init__()
+    def __init__(self, model_type="groq"):
+        super().__init__(model_type)
         self.vector_store = CareerVectorStore()
         self.embedder = CareerEmbedder()
     
