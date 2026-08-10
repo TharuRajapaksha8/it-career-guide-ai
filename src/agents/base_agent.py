@@ -4,28 +4,38 @@ Supports Groq and OpenRouter providers.
 """
 
 from langchain_groq import ChatGroq
-
-from src.config import get_groq_api_key
+from langchain_openai import ChatOpenAI
+import os
 
 class BaseAgent:
-    """Base class for all agents"""
-    
     def __init__(self, model_type="groq"):
-        """Initialize the selected model backend"""
-        self.model_type = model_type.lower()
-
+        self.model_type = model_type
+        self.llm = self._get_model()
+    
+    def _get_model(self):
         if self.model_type == "groq":
-            api_key = get_groq_api_key()
+            api_key = os.getenv("GROQ_API_KEY")
             if not api_key:
-                raise ValueError("Please set GROQ_API_KEY in .env")
-            self.llm = ChatGroq(
+                raise ValueError("GROQ_API_KEY not found")
+            return ChatGroq(
                 temperature=0.1,
-                model="llama-3.3-70b-versatile",
-                api_key=api_key
+                model="llama3-70b-8192",
+                groq_api_key=api_key
+            )
+        elif self.model_type == "openrouter":
+            api_key = os.getenv("OPENROUTER_API_KEY")
+            if not api_key:
+                raise ValueError("OPENROUTER_API_KEY not found")
+            return ChatOpenAI(
+                temperature=0.1,
+                model="anthropic/claude-3.5-sonnet",
+                openai_api_key=api_key,
+                base_url="https://openrouter.ai/api/v1"
             )
         else:
-            raise ValueError(f"Unsupported model_type: {model_type}")
-    
-    def get_response(self, prompt):
-        """Get response from the model"""
-        return self.llm.invoke(prompt)
+            api_key = os.getenv("GROQ_API_KEY")
+            return ChatGroq(
+                temperature=0.1,
+                model="llama3-70b-8192",
+                groq_api_key=api_key
+            )
