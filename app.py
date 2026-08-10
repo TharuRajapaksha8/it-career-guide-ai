@@ -7,11 +7,10 @@ from src.main import get_orchestrator
 
 st.set_page_config(page_title="Career Guide AI", page_icon="💼", layout="wide")
 
-st.title("💼 IT Career Guide AI")
+st.title("IT Career Guide AI 💼")
 st.write("Ask me about IT careers!")
 
-if not os.gete
-nv("GROQ_API_KEY"):
+if not os.getenv("GROQ_API_KEY"):
     st.error("Please set GROQ_API_KEY in .env file")
     st.stop()
 

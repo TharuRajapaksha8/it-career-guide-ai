@@ -1,6 +1,6 @@
 """
 Base agent with model selection
-Uses Groq for fast responses
+Supports Groq and OpenRouter providers.
 """
 
 from langchain_groq import ChatGroq

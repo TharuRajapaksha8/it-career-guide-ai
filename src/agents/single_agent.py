@@ -1,5 +1,6 @@
 from langgraph.prebuilt import create_react_agent
-from langchain.agents import Tool
+from langchain_core.messages import HumanMessage, AIMessage
+from langchain.tools import tool
 from src.rag.vector_store import CareerVectorStore
 from src.rag.embedder import CareerEmbedder
 from src.agents.base_agent import BaseAgent
@@ -35,18 +36,18 @@ class SingleCareerAgent(BaseAgent):
         
         agent = create_react_agent(
             model=self.llm,
-            tools=tools,
-            state_modifier=self.system_prompt
+            tools=[search_knowledge],
+            prompt=self.system_prompt
         )
         
         result = agent.invoke({
-            "messages": [{"role": "user", "content": query}]
+            "messages": [HumanMessage(content=query)]
         })
         
         answer = ""
         for msg in result.get("messages", []):
-            if msg.get("role") == "assistant" and not msg.get("tool_calls"):
-                answer = msg.get("content", "")
+            if isinstance(msg, AIMessage) and msg.content and not msg.tool_calls:
+                answer = msg.content
                 break
         
-        return {"final_answer": answer}
+        return {"final_answer": answer or "No answer generated"}
