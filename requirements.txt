@@ -9,4 +9,4 @@ chromadb==0.4.22
 sentence-transformers==2.2.2
 python-dotenv==1.0.0
 pydantic==2.9.2
-typing-extensions==4.8.0
+typing-extensions==4.12.2
