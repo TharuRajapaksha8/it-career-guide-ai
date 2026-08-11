@@ -52,9 +52,11 @@ class CareerOrchestrator:
         return result
 
 _orchestrator = None
+_current_model = None
 
 def get_orchestrator(model_type="groq"):
-    global _orchestrator
-    if _orchestrator is None:
+    global _orchestrator, _current_model
+    if _orchestrator is None or _current_model != model_type:
         _orchestrator = CareerOrchestrator(model_type)
+        _current_model = model_type
     return _orchestrator

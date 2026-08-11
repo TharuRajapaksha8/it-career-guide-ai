@@ -1,25 +1,37 @@
 """Load project configuration from the repo root .env file."""
 
-from pathlib import Path
 import os
-
+from pathlib import Path
 from dotenv import load_dotenv
 
+# Get project root
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 ENV_PATH = PROJECT_ROOT / ".env"
 
-
-def load_env() -> None:
-    """Load .env from the project root, regardless of the current working directory."""
+def load_env():
+    """Load .env from project root"""
     if ENV_PATH.exists():
         load_dotenv(ENV_PATH, override=True)
+    else:
+        # Try current directory
+        load_dotenv(override=True)
 
-
-def get_groq_api_key() -> str | None:
-    """Return a cleaned Groq API key, or None if it is missing."""
+def get_groq_api_key():
+    """Get Groq API key from environment"""
     load_env()
-    key = (os.getenv("GROQ_API_KEY") or "").strip().strip('"').strip("'")
+    key = os.getenv("GROQ_API_KEY", "").strip()
+    if key.startswith('"') and key.endswith('"'):
+        key = key[1:-1]
+    if key.startswith("'") and key.endswith("'"):
+        key = key[1:-1]
     return key or None
 
-
-load_env()
+def get_openrouter_api_key():
+    """Get OpenRouter API key from environment"""
+    load_env()
+    key = os.getenv("OPENROUTER_API_KEY", "").strip()
+    if key.startswith('"') and key.endswith('"'):
+        key = key[1:-1]
+    if key.startswith("'") and key.endswith("'"):
+        key = key[1:-1]
+    return key or None
