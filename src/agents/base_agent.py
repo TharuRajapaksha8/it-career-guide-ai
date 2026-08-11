@@ -5,8 +5,7 @@ Supports Groq and OpenRouter providers.
 
 from langchain_groq import ChatGroq
 from langchain_openai import ChatOpenAI
-import os
-import streamlit as st
+from src.config import get_groq_api_key, get_openrouter_api_key  # ✅ USE CONFIG
 
 class BaseAgent:
     def __init__(self, model_type="groq"):
@@ -14,16 +13,9 @@ class BaseAgent:
         self.llm = self._get_model()
     
     def _get_model(self):
-        # Try Streamlit secrets first, then .env
-        try:
-            groq_key = st.secrets.get("GROQ_API_KEY")
-        except:
-            groq_key = os.getenv("GROQ_API_KEY")
-        
-        try:
-            openrouter_key = st.secrets.get("OPENROUTER_API_KEY")
-        except:
-            openrouter_key = os.getenv("OPENROUTER_API_KEY")
+        # ✅ USE CONFIG
+        groq_key = get_groq_api_key()
+        openrouter_key = get_openrouter_api_key()
         
         if self.model_type == "groq":
             if not groq_key:

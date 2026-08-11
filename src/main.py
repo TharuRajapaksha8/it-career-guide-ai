@@ -10,13 +10,15 @@ from src.agents.parallel_agent import ParallelCareerAgent
 from src.rag.chunker import CareerChunker
 from src.rag.embedder import CareerEmbedder
 from src.rag.vector_store import CareerVectorStore
+from src.config import get_groq_api_key  # ✅ USE CONFIG
 
 load_dotenv()
 
 class CareerOrchestrator:
     def __init__(self, model_type="groq"):
         self.model_type = model_type
-        self.api_key = os.getenv("GROQ_API_KEY")
+        # ✅ USE CONFIG NOT os.getenv
+        self.api_key = get_groq_api_key()
         if not self.api_key:
             raise ValueError("GROQ_API_KEY not found")
         
