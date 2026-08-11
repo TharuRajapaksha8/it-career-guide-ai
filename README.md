@@ -80,4 +80,5 @@ When user ask a question:
 
 ## Links
 - Live App: https://it-career-guide-ai-jrszdixb5jdrhntvhefmwf.streamlit.app/
-- 
+- GitHub: https://github.com/TharuRajapaksha8/it-career-guide-ai.git
+- Demo Video: 
