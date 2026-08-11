@@ -4,14 +4,13 @@ Multiple agents research different careers simultaneously
 """
 
 from langgraph.graph import StateGraph, END
-from typing import TypedDict, List, Dict
+from typing import TypedDict
 import time
 from src.agents.base_agent import BaseAgent
 from src.rag.vector_store import CareerVectorStore
 from src.rag.embedder import CareerEmbedder
 
 class ParallelState(TypedDict):
-    """Shared state for parallel agents"""
     user_query: str
     career_1: str
     career_2: str
@@ -19,60 +18,41 @@ class ParallelState(TypedDict):
     comparison: str
 
 class ParallelCareerAgent(BaseAgent):
-    """Parallel agents researching different careers"""
-    
     def __init__(self, model_type="groq"):
         super().__init__(model_type)
         self.vector_store = CareerVectorStore()
         self.embedder = CareerEmbedder()
     
     def _research_career(self, career_name, state_key):
-        """Factory function for research agents"""
-        def agent(state: ParallelState) -> dict:
+        def agent(state):
             query = state["user_query"]
-            
-            results = self.vector_store.search(
-                f"{career_name} {query}", 
-                self.embedder, 
-                n_results=2
-            )
+            results = self.vector_store.search(f"{career_name} {query}", self.embedder, n_results=2)
             context = "\n".join([r['text'] for r in results])
             
             prompt = f"""Research {career_name} career.
-
 Query: {query}
 Context: {context}
-
-Provide:
-1. What they do
-2. Skills needed
-3. Certifications
-4. Career path
-"""
+Provide: what they do, skills, certifications, career path"""
+            
             response = self.llm.invoke(prompt)
             return {state_key: response.content}
         return agent
     
-    def _aggregator(self, state: ParallelState) -> dict:
-        """Aggregator: Combine all research"""
+    def _aggregator(self, state):
         c1 = state.get("career_1", "")
         c2 = state.get("career_2", "")
         c3 = state.get("career_3", "")
         
-        prompt = f"""Compare these 3 careers:
-
+        prompt = f"""Compare these careers:
 Career 1: {c1[:500]}
 Career 2: {c2[:500]}
 Career 3: {c3[:500]}
-
-Which is best and why? Provide a clear recommendation.
-"""
+Which is best and why?"""
+        
         response = self.llm.invoke(prompt)
         return {"comparison": response.content}
     
     def run(self, query):
-        """Run parallel agents"""
-
         graph = StateGraph(ParallelState)
         
         def router(state):
@@ -85,11 +65,9 @@ Which is best and why? Provide a clear recommendation.
         graph.add_node("aggregator", self._aggregator)
         
         graph.set_entry_point("router")
-        
         graph.add_edge("router", "career_1")
         graph.add_edge("router", "career_2")
         graph.add_edge("router", "career_3")
-        
         graph.add_edge("career_1", "aggregator")
         graph.add_edge("career_2", "aggregator")
         graph.add_edge("career_3", "aggregator")

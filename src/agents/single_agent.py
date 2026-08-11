@@ -1,8 +1,3 @@
-"""
-Single Agent Pattern - ReAct Loop
-One agent handles everything using reasoning + tools
-"""
-
 from langgraph.prebuilt import create_react_agent
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain.tools import tool
@@ -17,24 +12,15 @@ class SingleCareerAgent(BaseAgent):
         self.embedder = CareerEmbedder()
         
         self.system_prompt = """You are a career advisor for IT roles.
-        
         When someone asks about a career, use the search tool to find information.
-        Then give clear advice about:
-        - What the role does
-        - Skills needed
-        - Certifications
-        - Career path
-        
-        Be helpful and specific.
-        """
+        Give clear advice about: what the role does, skills needed, certifications, and career path."""
     
     def _search_knowledge(self, query):
         try:
             results = self.vector_store.search(query, self.embedder, n_results=3)
             if not results:
                 return "No information found."
-            
-            output = "=== Career Information ===\n\n"
+            output = "Career Information:\n\n"
             for i, r in enumerate(results, 1):
                 output += f"[{i}] {r['text']}\n\n"
             return output
@@ -42,11 +28,11 @@ class SingleCareerAgent(BaseAgent):
             return f"Error searching: {e}"
     
     def run(self, query):
-        # Define tool with docstring
-        @tool
-        def search_knowledge(query: str) -> str:
-            """Search for career information from the knowledge base."""
-            return self._search_knowledge(query)
+        tools = [Tool(
+            name="search_knowledge",
+            func=self._search_knowledge,
+            description="Search for career information"
+        )]
         
         agent = create_react_agent(
             model=self.llm,
