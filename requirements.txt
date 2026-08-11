@@ -8,5 +8,5 @@ langchain-groq==0.3.7
 langchain-community==0.3.27
 python-dotenv==1.0.0
 langchain-openai==0.3.27
-pydantic==2.5.0
+pydantic==2.7.4
 typing-extensions==4.8.0
