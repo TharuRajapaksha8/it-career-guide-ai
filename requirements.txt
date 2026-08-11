@@ -10,3 +10,6 @@ sentence-transformers==2.2.2
 python-dotenv==1.0.0
 pydantic==2.9.2
 typing-extensions==4.12.2
+sentence-transformers==2.7.0
+huggingface-hub==0.16.4
+transformers==4.34.0
