@@ -1,18 +1,13 @@
 import streamlit as st
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
+from src.config import get_groq_api_key
 
 st.set_page_config(page_title="Career Guide AI", page_icon="💼", layout="wide")
 
 st.title("💼 IT Career Guide AI")
 st.write("Ask me about IT careers!")
 
-try:
-    groq_key = st.secrets.get("GROQ_API_KEY")
-except:
-    groq_key = os.getenv("GROQ_API_KEY")
+# ✅ USE CONFIG
+groq_key = get_groq_api_key()
 
 if not groq_key:
     st.error("❌ GROQ_API_KEY not found!")
@@ -51,11 +46,8 @@ with st.sidebar:
     )
     
     if model_type == "openrouter":
-        try:
-            has_openrouter = st.secrets.get("OPENROUTER_API_KEY") is not None
-        except:
-            has_openrouter = os.getenv("OPENROUTER_API_KEY") is not None
-        if not has_openrouter:
+        from src.config import get_openrouter_api_key
+        if not get_openrouter_api_key():
             st.warning("⚠️ OPENROUTER_API_KEY not set. Switch to Groq.")
     
     st.markdown("---")
@@ -82,19 +74,15 @@ for msg in st.session_state.messages:
 
 # Chat input
 if prompt := st.chat_input("Ask about IT careers..."):
-    # Add user message
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.write(prompt)
     
-    # Get response
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
             try:
-                # Run orchestrator with selected pattern
                 result = st.session_state.orchestrator.run(prompt, pattern)
                 
-                # Extract answer based on pattern
                 if pattern == "single":
                     answer = result.get('final_answer', 'No answer generated')
                 elif pattern == "sequential":
@@ -111,6 +99,5 @@ if prompt := st.chat_input("Ask about IT careers..."):
             except Exception as e:
                 st.error(f"Error: {e}")
 
-# Footer
 st.divider()
 st.caption("Built with LangGraph, Groq, and Streamlit")
